@@ -14,7 +14,7 @@
 </head>
 <body>
 	<table border = "1">
-	<caption> Cliente <%= c.getNomeCliente() %> (<%= c.getCpfCliente()  %>)</caption>
+	<caption> Cliente <%= c.getNomeCliente() %> (<%= c.getCpfCliente() %>)</caption>
 		<tr>
 			<th>Número da Conta</th>
 		</tr>

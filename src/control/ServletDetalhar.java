@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.Conexao;
 import dao.ContaDao;
+import dao.TransacaoDao;
 import model.Conta;
+import model.Transacao;
 
 /**
  * Servlet implementation class ServletDetalhar
@@ -37,12 +40,20 @@ public class ServletDetalhar extends HttpServlet {
 		try {
 			Connection conexao = Conexao.getConexao();
 			ContaDao cd = new ContaDao(conexao);
+			TransacaoDao td = new TransacaoDao(conexao);
+			
 			Conta c = cd.getConta(Integer.parseInt(request.getParameter("id")));
 			request.setAttribute("conta", c);
+			
+			ArrayList<Transacao> transacoes = td.getTransacoes(c.getIdConta());
+			request.setAttribute("transacoes", transacoes);
+			
+			double saldo = cd.getSaldo(c.getIdConta());
+			request.setAttribute("saldo", saldo);
+			
 			RequestDispatcher rd = request.getRequestDispatcher("detalharConta.jsp");
 			
 			rd.forward(request, response);
-			
 			conexao.close();
 			
 		}catch(SQLException e) {

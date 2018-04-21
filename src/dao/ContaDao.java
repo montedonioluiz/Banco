@@ -66,4 +66,32 @@ public class ContaDao {
 		}
 		return c;
 	}
+	
+	public double getSaldo(int contaID) {
+		double saldo = 0;
+		try {
+			double credito = 0;
+			double debito = 0;
+			PreparedStatement ps;
+			ResultSet rs;
+			
+			ps = conexao.prepareStatement("SELECT SUM(valortransacao) as valor FROM transacao t WHERE t.idconta= ? AND t.tipotransacao = 'C'");
+			ps.setInt(1, contaID);
+			rs = ps.executeQuery();
+			rs.first();
+			credito = rs.getDouble("valor");
+			
+			ps = conexao.prepareStatement("SELECT SUM(valortransacao) as valor FROM transacao t WHERE t.idconta= ? AND t.tipotransacao = 'D'");
+			ps.setInt(1, contaID);
+			rs = ps.executeQuery();
+			rs.first();
+			debito = rs.getDouble("valor");
+			
+			saldo = debito - credito;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return saldo;
+	}
 }

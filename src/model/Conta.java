@@ -45,4 +45,10 @@ public class Conta {
 	public void setTipoConta(String tipoConta) {
 		this.tipoConta = tipoConta;
 	}
+	
+	public String toString() {
+		//int idConta, int idCliente, String numeroConta, String agenciaConta, String tipoConta
+		return getIdConta() + "/" + getIdCliente() + "/" + getNumeroConta()
+							+ "/" + getAgenciaConta() + "/" + getTipoConta();
+	}
 }
